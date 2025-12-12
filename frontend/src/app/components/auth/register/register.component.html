@@ -1,0 +1,92 @@
+<div class="auth-page">
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1>Регистрация</h1>
+        <p>Создайте новый аккаунт</p>
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+        <div class="name-fields">
+          <div class="form-group half-width">
+            <label>Имя *</label>
+            <input type="text" formControlName="firstName" class="form-input">
+            <div class="error" *ngIf="registerForm.get('firstName')?.hasError('required') && registerForm.get('firstName')?.touched">
+              Имя обязательно
+            </div>
+          </div>
+
+          <div class="form-group half-width">
+            <label>Фамилия *</label>
+            <input type="text" formControlName="lastName" class="form-input">
+            <div class="error" *ngIf="registerForm.get('lastName')?.hasError('required') && registerForm.get('lastName')?.touched">
+              Фамилия обязательна
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" formControlName="email" class="form-input">
+          <div class="error" *ngIf="registerForm.get('email')?.hasError('required') && registerForm.get('email')?.touched">
+            Email обязателен
+          </div>
+          <div class="error" *ngIf="registerForm.get('email')?.hasError('email') && registerForm.get('email')?.touched">
+            Введите корректный email
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Пароль *</label>
+          <div class="password-input">
+            <input [type]="hidePassword ? 'password' : 'text'"
+                   formControlName="password"
+                   class="form-input">
+            <button type="button"
+                    class="password-toggle"
+                    (click)="togglePasswordVisibility()">
+              {{ hidePassword ? '👁️' : '👁️‍🗨️' }}
+            </button>
+          </div>
+          <div class="error" *ngIf="registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched">
+            Пароль обязателен
+          </div>
+          <div class="error" *ngIf="registerForm.get('password')?.hasError('minlength') && registerForm.get('password')?.touched">
+            Минимум 6 символов
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Подтверждение пароля *</label>
+          <div class="password-input">
+            <input [type]="hideConfirmPassword ? 'password' : 'text'"
+                   formControlName="confirmPassword"
+                   class="form-input">
+            <button type="button"
+                    class="password-toggle"
+                    (click)="toggleConfirmPasswordVisibility()">
+              {{ hideConfirmPassword ? '👁️' : '👁️‍🗨️' }}
+            </button>
+          </div>
+          <div class="error" *ngIf="registerForm.get('confirmPassword')?.hasError('required') && registerForm.get('confirmPassword')?.touched">
+            Подтверждение пароля обязательно
+          </div>
+          <div class="error" *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
+            Пароли не совпадают
+          </div>
+        </div>
+
+        <button type="submit"
+                class="auth-btn primary-btn"
+                [disabled]="loading">
+          <span *ngIf="!loading">Зарегистрироваться</span>
+          <span *ngIf="loading">Загрузка...</span>
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        <p>Уже есть аккаунт? <a routerLink="/login" class="auth-link">Войти</a></p>
+      </div>
+    </div>
+  </div>
+</div>

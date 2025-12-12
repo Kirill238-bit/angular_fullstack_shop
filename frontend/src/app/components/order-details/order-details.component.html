@@ -1,0 +1,88 @@
+<div class="order-details">
+  <div class="page-header">
+    <h1>Детали заказа #{{ order?.id }}</h1>
+    <button class="back-btn" routerLink="/orders">
+      ← Назад к заказам
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading">Загрузка деталей заказа...</div>
+
+  <div *ngIf="!loading && order" class="order-content">
+    <div class="order-layout">
+      <!-- Order Info -->
+      <div class="info-card">
+        <h2>Информация о заказе</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">Номер заказа:</span>
+            <span class="info-value">#{{ order.id }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Дата создания:</span>
+            <span class="info-value">{{ formatDate(order.created_at) }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Статус:</span>
+            <span class="status-badge" [class]="order.status">
+              {{ getStatusText(order.status) }}
+            </span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Общая сумма:</span>
+            <span class="info-value total-amount">{{ order.total_amount | number }} ₽</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shipping Info -->
+      <div class="info-card">
+        <h2>Данные доставки</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">Телефон:</span>
+            <span class="info-value">{{ order.customer_phone || 'Не указано' }}</span>
+          </div>
+          <div class="info-item full-width">
+            <span class="info-label">Адрес доставки:</span>
+            <span class="info-value">{{ order.shipping_address || 'Не указано' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Items -->
+    <div class="order-items-card">
+      <h2>Состав заказа</h2>
+      <p class="items-count">Товары ({{ order.items?.length || 0 }})</p>
+
+      <div class="order-items">
+        <div *ngFor="let item of order.items" class="order-item">
+          <div class="item-image">
+            <img [src]="item.image_url"
+                 [alt]="item.name"
+                 (error)="item.image_url = 'https://images.unsplash.com/photo-1547887535-2c0d234b5c1a?w=400&h=400&fit=crop'">
+          </div>
+
+          <div class="item-details">
+            <h4 class="item-name">{{ item.name || 'Неизвестный товар' }}</h4>
+            <p class="item-brand">{{ item.brand || 'Без бренда' }}</p>
+            <p class="item-quantity">Количество: {{ item.quantity }}</p>
+          </div>
+
+          <div class="item-price">
+            <span class="price">{{ item.price | number }} ₽ × {{ item.quantity }}</span>
+            <span class="total">{{ (item.price * item.quantity) | number }} ₽</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="order-total">
+        <div class="total-line">
+          <span>Итого:</span>
+          <span class="total-amount">{{ order.total_amount | number }} ₽</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

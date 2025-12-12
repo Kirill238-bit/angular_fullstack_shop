@@ -1,0 +1,237 @@
+.product-detail {
+  .product-detail-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+  }
+}
+
+.product-images {
+  .main-image {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+}
+
+.product-info {
+  .product-header {
+    margin-bottom: 2rem;
+
+    .product-name {
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-brand {
+      font-size: 1.2rem;
+      color: #667eea;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .product-meta {
+    display: flex;
+    gap: 1rem;
+
+    .product-category, .product-volume {
+      background: #e9ecef;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      color: #6c757d;
+    }
+  }
+}
+
+.product-price-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  .product-price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #27ae60;
+  }
+
+  .product-stock {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 500;
+    background: #e74c3c;
+    color: white;
+
+    &.in-stock {
+      background: #27ae60;
+    }
+  }
+}
+
+.product-description {
+  margin-bottom: 2rem;
+
+  h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+  }
+
+  p {
+    color: #6c757d;
+    line-height: 1.6;
+    font-size: 1.1rem;
+  }
+}
+
+.product-actions {
+  .quantity-selector {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #2c3e50;
+    }
+  }
+
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .quantity-btn {
+      width: 40px;
+      height: 40px;
+      border: 2px solid #667eea;
+      background: white;
+      color: #667eea;
+      border-radius: 6px;
+      font-size: 1.2rem;
+      cursor: pointer;
+
+      &:hover:not(:disabled) {
+        background: #667eea;
+        color: white;
+      }
+
+      &:disabled {
+        border-color: #bdc3c7;
+        color: #bdc3c7;
+        cursor: not-allowed;
+      }
+    }
+
+    .quantity {
+      font-size: 1.2rem;
+      font-weight: 600;
+      min-width: 40px;
+      text-align: center;
+    }
+  }
+
+  .add-to-cart-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+  }
+}
+
+.out-of-stock {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  padding: 1rem;
+  border-radius: 8px;
+  color: #856404;
+  text-align: center;
+  font-weight: 500;
+}
+
+.related-products {
+  margin-top: 4rem;
+
+  h2 {
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 300;
+  }
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.related-product-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  }
+
+  .related-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .related-content {
+    padding: 1rem;
+
+    h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: #2c3e50;
+    }
+
+    .related-brand {
+      color: #667eea;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .related-price {
+      font-weight: 700;
+      color: #27ae60;
+      font-size: 1.1rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .product-detail .product-detail-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .product-images .main-image {
+    height: 300px;
+  }
+
+  .product-info .product-header .product-name {
+    font-size: 2rem;
+  }
+
+  .related-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}

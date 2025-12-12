@@ -1,0 +1,83 @@
+<div class="product-detail">
+  <button class="back-btn" (click)="goBack()">
+    ← Назад к каталогу
+  </button>
+
+  <div *ngIf="loading" class="loading">Загрузка товара...</div>
+
+  <div *ngIf="!loading && product" class="product-detail-content">
+    <div class="product-images">
+      <img [src]="product.image_url"
+           [alt]="product.name"
+           class="main-image"
+           (error)="product.image_url = 'assets/images/placeholder.jpg'">
+    </div>
+
+    <div class="product-info">
+      <div class="product-header">
+        <h1 class="product-name">{{ product.name }}</h1>
+        <p class="product-brand">{{ product.brand }}</p>
+        <div class="product-meta">
+          <span class="product-category">{{ product.category }}</span>
+          <span class="product-volume">{{ product.volume_ml }} мл</span>
+        </div>
+      </div>
+
+      <div class="product-price-section">
+        <span class="product-price">{{ product.price | number }} ₽</span>
+        <span class="product-stock" [class.in-stock]="product.in_stock">
+          {{ product.in_stock ? 'В наличии' : 'Нет в наличии' }}
+          <span *ngIf="product.in_stock">({{ product.stock_quantity }} шт.)</span>
+        </span>
+      </div>
+
+      <div class="product-description">
+        <h3>Описание</h3>
+        <p>{{ product.description }}</p>
+      </div>
+
+      <div class="product-actions" *ngIf="product.in_stock">
+        <div class="quantity-selector">
+          <label>Количество:</label>
+          <div class="quantity-controls">
+            <button class="quantity-btn"
+                    (click)="decreaseQuantity()"
+                    [disabled]="selectedQuantity <= 1">-</button>
+            <span class="quantity">{{ selectedQuantity }}</span>
+            <button class="quantity-btn"
+                    (click)="increaseQuantity()"
+                    [disabled]="selectedQuantity >= product.stock_quantity">+</button>
+          </div>
+        </div>
+
+        <button class="add-to-cart-btn primary-btn" (click)="addToCart()">
+          Добавить в корзину - {{ (product.price * selectedQuantity) | number }} ₽
+        </button>
+      </div>
+
+      <div *ngIf="!product.in_stock" class="out-of-stock">
+        <span>⚠️ Товар временно отсутствует</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Related Products -->
+  <div *ngIf="relatedProducts.length > 0" class="related-products">
+    <h2>Похожие товары</h2>
+    <div class="related-grid">
+      <div *ngFor="let product of relatedProducts"
+           class="related-product-card"
+           [routerLink]="['/product', product.id]">
+        <img [src]="product.image_url"
+             [alt]="product.name"
+             class="related-image"
+             (error)="product.image_url = 'assets/images/placeholder.jpg'">
+        <div class="related-content">
+          <h3>{{ product.name }}</h3>
+          <p class="related-brand">{{ product.brand }}</p>
+          <p class="related-price">{{ product.price | number }} ₽</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

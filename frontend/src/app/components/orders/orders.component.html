@@ -1,0 +1,50 @@
+<div class="orders">
+  <div class="page-header">
+    <h1>Мои заказы</h1>
+    <p>История ваших покупок</p>
+  </div>
+
+  <div class="orders-content">
+    <div *ngIf="loading" class="loading">Загрузка заказов...</div>
+
+    <div *ngIf="!loading && orders.length === 0" class="no-orders">
+      <div class="no-orders-icon">📦</div>
+      <h3>Заказов пока нет</h3>
+      <p>Сделайте свой первый заказ в нашем магазине</p>
+      <button class="primary-btn" routerLink="/">
+        Перейти к покупкам
+      </button>
+    </div>
+
+    <div *ngIf="!loading && orders.length > 0" class="orders-list">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>№ Заказа</th>
+            <th>Дата</th>
+            <th>Сумма</th>
+            <th>Статус</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orders">
+            <td>#{{ order.id }}</td>
+            <td>{{ order.created_at | date:'dd.MM.yyyy HH:mm' }}</td>
+            <td>{{ order.total_amount | number }} ₽</td>
+            <td>
+              <span class="status-badge" [class]="order.status">
+                {{ getStatusText(order.status) }}
+              </span>
+            </td>
+            <td>
+              <button class="view-btn" (click)="viewOrderDetails(order.id)">
+                Подробнее
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,169 @@
+<div class="product-list">
+  <div class="page-header">
+    <h1>Каталог духов</h1>
+    <p>Найдите свой идеальный аромат</p>
+  </div>
+
+  <div class="content-wrapper">
+    <!-- Filters Sidebar -->
+    <aside class="filters-sidebar">
+      <div class="filters-header">
+        <h3>Фильтры</h3>
+        <button class="clear-btn" (click)="clearFilters()">Сбросить</button>
+      </div>
+
+      <!-- Search -->
+      <div class="filter-group">
+        <label>Поиск</label>
+        <input type="text"
+               [(ngModel)]="filters.search"
+               (keyup.enter)="applyFilters()"
+               placeholder="Название или бренд..."
+               class="filter-input">
+      </div>
+
+      <!-- Brand Filter -->
+      <div class="filter-group">
+        <label>Бренд</label>
+        <select [(ngModel)]="filters.brand" (change)="applyFilters()" class="filter-select">
+          <option value="">Все бренды</option>
+          <option *ngFor="let brand of brands" [value]="brand">
+            {{ brand }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="filter-group">
+        <label>Категория</label>
+        <select [(ngModel)]="filters.category" (change)="applyFilters()" class="filter-select">
+          <option value="">Все категории</option>
+          <option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Price Range -->
+      <div class="filter-group">
+        <label>Цена, ₽</label>
+        <div class="price-inputs">
+          <input type="number"
+                 [(ngModel)]="filters.minPrice"
+                 (change)="applyFilters()"
+                 placeholder="От"
+                 class="price-input">
+          <input type="number"
+                 [(ngModel)]="filters.maxPrice"
+                 (change)="applyFilters()"
+                 placeholder="До"
+                 class="price-input">
+        </div>
+      </div>
+
+      <!-- Stock Filter -->
+      <div class="filter-group">
+        <label class="checkbox-label">
+          <input type="checkbox"
+                 [(ngModel)]="filters.inStock"
+                 (change)="applyFilters()"
+                 class="checkbox">
+          Только в наличии
+        </label>
+      </div>
+
+      <!-- Sort -->
+      <div class="filter-group">
+        <label>Сортировка</label>
+        <select [(ngModel)]="filters.sortBy" (change)="applyFilters()" class="filter-select">
+          <option value="">По умолчанию</option>
+          <option value="price_asc">Цена по возрастанию</option>
+          <option value="price_desc">Цена по убыванию</option>
+          <option value="name_asc">Название А-Я</option>
+          <option value="name_desc">Название Я-А</option>
+        </select>
+      </div>
+
+      <button class="apply-filters-btn" (click)="applyFilters()">
+        Применить фильтры
+      </button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="products-main">
+      <!-- Loading -->
+      <div *ngIf="loading" class="loading">Загрузка...</div>
+
+      <!-- Products Grid -->
+      <div *ngIf="!loading" class="products-grid">
+        <div *ngFor="let product of products" class="product-card">
+          <div class="product-image-container">
+            <img [src]="product.image_url"
+                 [alt]="product.name"
+                 class="product-image"
+                 (error)="product.image_url = 'assets/images/placeholder.jpg'">
+            <div class="product-badge" *ngIf="!product.in_stock">
+              Нет в наличии
+            </div>
+          </div>
+
+          <div class="product-content">
+            <h3 class="product-name">{{ product.name }}</h3>
+            <p class="product-brand">{{ product.brand }}</p>
+            <p class="product-category">{{ product.category }}</p>
+            <p class="product-volume">{{ product.volume_ml }} мл</p>
+
+            <div class="product-price-section">
+              <span class="product-price">{{ product.price | number }} ₽</span>
+              <span class="product-stock" [class.in-stock]="product.in_stock">
+                {{ product.in_stock ? 'В наличии' : 'Нет в наличии' }}
+              </span>
+            </div>
+
+            <p class="product-description">{{ product.description | slice:0:100 }}...</p>
+          </div>
+
+          <div class="product-actions">
+            <button class="add-to-cart-btn"
+                    (click)="addToCart(product)"
+                    [disabled]="!product.in_stock">
+              В корзину
+            </button>
+            <a [routerLink]="['/product', product.id]" class="details-btn">
+              Подробнее
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Products -->
+      <div *ngIf="!loading && products.length === 0" class="no-products">
+        <div class="no-products-icon">🔍</div>
+        <h3>Товары не найдены</h3>
+        <p>Попробуйте изменить параметры фильтрации</p>
+        <button class="primary-btn" (click)="clearFilters()">
+          Сбросить фильтры
+        </button>
+      </div>
+
+      <!-- Pagination -->
+      <div *ngIf="!loading && products.length > 0" class="pagination">
+        <button class="pagination-btn"
+                [disabled]="!pagination.hasPrev"
+                (click)="onPageChange(pagination.currentPage - 1)">
+          Назад
+        </button>
+
+        <span class="pagination-info">
+          Страница {{ pagination.currentPage }} из {{ pagination.totalPages }}
+        </span>
+
+        <button class="pagination-btn"
+                [disabled]="!pagination.hasNext"
+                (click)="onPageChange(pagination.currentPage + 1)">
+          Вперед
+        </button>
+      </div>
+    </main>
+  </div>
+</div>

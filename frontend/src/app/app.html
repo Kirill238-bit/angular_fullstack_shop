@@ -1,0 +1,66 @@
+  <div class="app">
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <a routerLink="/" class="logo-link">
+            <span class="logo-icon">🛍️</span>
+            <span class="logo-text">Магазин духов</span>
+          </a>
+        </div>
+
+        <nav class="nav">
+          <a routerLink="/products" routerLinkActive="active" class="nav-link">
+            Каталог
+          </a>
+          <a routerLink="/cart" routerLinkActive="active" class="nav-link cart-link">
+            Корзина
+            @if (cartItemsCount() && cartItemsCount()! > 0) {
+              <span class="cart-badge">{{ cartItemsCount() }}</span>
+            }
+          </a>
+
+          @if (currentUser()) {
+            <div class="auth-section">
+              <a routerLink="/orders" routerLinkActive="active" class="nav-link">
+                Заказы
+              </a>
+              <a routerLink="/profile" routerLinkActive="active" class="nav-link">
+                {{ getUserName() }}
+              </a>
+              <button class="logout-btn" (click)="logout()">Выйти</button>
+            </div>
+          } @else {
+            <div class="auth-section">
+              <a routerLink="/login" routerLinkActive="active" class="nav-link">
+                Войти
+              </a>
+              <a routerLink="/register" routerLinkActive="active" class="nav-link">
+                Регистрация
+              </a>
+            </div>
+          }
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; 2025 Магазин духов. Все права защищены.</p>
+        <div class="footer-links">
+          <a href="#">О нас</a>
+          <a href="#">Контакты</a>
+          <a href="#">Доставка и оплата</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
